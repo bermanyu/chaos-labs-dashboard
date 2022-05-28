@@ -23,9 +23,6 @@ const MainView = (props: any) => {
   const [dashboardsData, setDashboardDataFromLocal] = useState(
     props.initalData
   );
-  debugger;
-  // const newDataString = localStorage.getItem("dashboard");
-  // const newDataParsed = JSON.parse(newDataString || "{}");
 
   const [selectedDashboard, setSelectedDashboard] = useState(dashboardsData[0]);
   const [items, setItems] = useState(dashboardsData);
@@ -47,7 +44,6 @@ const MainView = (props: any) => {
     // call async function to update the server
     // get the return value from the server and update set Items
     setItems((prevItems: any) => {
-      debugger;
       return [...prevItems, newItem];
     });
     localStorage.setItem("dashboard", JSON.stringify(newList));
