@@ -1,66 +1,103 @@
 import React, { useCallback, useState } from "react";
+import _ from "lodash";
+
+import "./createStatCardModal.styles.css";
 
 const CreateStatCardModal = (props: any) => {
-  const [coinList, setCoinList] = useState<any>([]);
+  //   const [coinList, setCoinList] = useState<any>([]);
+  const [tickersList, setTickersList] = useState<any>([]);
 
   const [selectedCoin, setSelectedCoin] = useState("bitcoin");
+  const [selectedTick, setSelectedTick] = useState();
 
-  const loadCoinList = useCallback(async () => {
-    const response = await fetch("https://api.coingecko.com/api/v3/coins/list");
+  const loadCoinTickers = async () => {
+    const response = await fetch(
+      `https://api.coingecko.com/api/v3/coins/${selectedCoin}/tickers`
+    );
     const data = await response.json();
-    // const defaultValue = data.find((item: any) => {
-    //   return item.id === "bitcoin";
-    // });
 
-    // setSelectedCoin(defaultValue.id);
-    // console.log("default", defaultValue.id);
-    console.log("selected", selectedCoin);
+    // setCoinList(data);
+    const pickedMap = _.map(data.tickers, (item) => {
+      return {
+        timestamp: item.timestamp,
+        base: item.base,
+        target: item.target,
+        last: item.last,
+        market: item.market,
+        coinId: item.coin_id,
+      };
+    });
 
-    setCoinList(data);
+    const ordered = _.chain(pickedMap)
+      .filter((item) => {
+        return item.coinId === selectedCoin;
+      })
+      .sortBy("timestamp")
+      .reverse()
+      .groupBy("target")
+      .map((item) => {
+        return item[0];
+      })
+      .value();
 
-    console.log(data);
-  }, []);
+    setTickersList(ordered);
+    setSelectedTick(ordered[0]?.target);
+  };
 
   React.useEffect(() => {
-    loadCoinList();
-  }, [loadCoinList]);
-
-  React.useEffect(() => {
-    console.log("selected", selectedCoin);
+    loadCoinTickers();
   }, [selectedCoin]);
 
   const onSelectedCoin = (event: any) => {
-    let index = coinList.findIndex((item: any) => {
+    let index = props.coinList.findIndex((item: any) => {
       return item.id === event.target.value;
     });
-
-    setSelectedCoin(coinList[index]?.id);
-    console.log("selected", selectedCoin);
+    setSelectedCoin(props.coinList[index]?.id);
   };
 
-  const onSubmitHandler = () => {};
+  const onSelectedTick = (event: any) => {
+    setSelectedTick(event.target.value);
+  };
+
+  const onCreateHandler = () => {
+    let index = tickersList.findIndex((item: any) => {
+      return item.target === selectedTick;
+    });
+    props.onCreateHandler(tickersList[index]);
+  };
   return (
     <div className="modal">
-      <form>
-        <p>create stat card</p>
-        <select
-          className="row select"
-          value={selectedCoin}
-          onChange={onSelectedCoin}
-        >
-          {coinList.map((item: any) => (
-            <option key={item.id} value={item.id}>
-              {item.name}
-            </option>
-          ))}
-        </select>
+      <p className="modal-title">Add New Ticker</p>
+      <select
+        className="row select coinList"
+        value={selectedCoin}
+        onChange={onSelectedCoin}
+      >
+        {props.coinList.map((item: any) => (
+          <option key={item.id} value={item.id}>
+            {item.name}
+          </option>
+        ))}
+      </select>
+      <select
+        className="row select coinList"
+        value={selectedTick}
+        onChange={onSelectedTick}
+      >
+        {tickersList.map((item: any) => (
+          <option key={item.target} value={item.target}>
+            {item.target}
+          </option>
+        ))}
+      </select>
+      <div className="modalFooter">
         <button className="btn btn--alt" onClick={props.onCancelClick}>
           Cancel
         </button>
-        <button className="btn" onClick={onSubmitHandler}>
+        <button className="btn" onClick={onCreateHandler}>
           Create
         </button>
-      </form>
+      </div>
     </div>
   );
 };

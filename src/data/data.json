@@ -3,18 +3,18 @@
     {
       "name": "dashboard1",
       "statCards": [
-        { "title": "BTC/ETH", "subTitle": "Source: coinBase", "data": "17.3" }
+        { "title": "BTC/ETH", "subTitle": "coinBase", "data": "17.34343" }
       ]
     },
     {
       "name": "dashboard2",
       "statCards": [
-        { "title": "BTC/ETH", "subTitle": "Source: coinBase", "data": "17.3" },
-        { "title": "BTC/SHI", "subTitle": "Source: coinBase", "data": "2.3" },
-        { "title": "ETH/BTC", "subTitle": "Source: coinBase", "data": "8.41" },
-        { "title": "ETH/BTC", "subTitle": "Source: coinBase", "data": "8.41" },
-        { "title": "ETH/BTC", "subTitle": "Source: coinBase", "data": "8.41" },
-        { "title": "ETH/BTC", "subTitle": "Source: coinBase", "data": "8.41" }
+        { "title": "BTC/ETH", "subTitle": "coinBase", "data": "17.3" },
+        { "title": "BTC/SHI", "subTitle": "coinBase", "data": "2.3" },
+        { "title": "ETH/BTC", "subTitle": "coinBase", "data": "8.41" },
+        { "title": "ETH/BTC", "subTitle": "coinBase", "data": "8.41" },
+        { "title": "ETH/BTC", "subTitle": "coinBase", "data": "8.41" },
+        { "title": "ETH/BTC", "subTitle": "coinBase", "data": "8.41" }
       ]
     }
   ]

@@ -8,11 +8,15 @@ import Dashboard from "./components/dashboard";
 function App() {
   const newDataString = localStorage.getItem("dashboard");
 
-  const { dashboard } = data;
+  if (newDataString == undefined) {
+    const { dashboard } = data;
+    // setData(dashboard);
 
-  localStorage.setItem("dashboard", JSON.stringify(dashboard));
-
-  const [initalDashboard] = useState(
+    localStorage.setItem("dashboard", JSON.stringify(dashboard));
+  } else {
+    // setData(JSON.parse(newDataString));
+  }
+  const [initalDashboard, setData]: [any, any] = useState(
     newDataString ? JSON.parse(newDataString) : Dashboard
   );
 
