@@ -10,14 +10,19 @@ h3 {
   color: #ffffff;
 }
 
+:root {
+  --main-grey: #5e5e5e;
+  --dark-grey: rgb(47, 46, 46);
+  --light-grey: #646364;
+}
+
 .btn {
   font: inherit;
   padding: 0.5rem 1.5rem;
   cursor: pointer;
   border-radius: 4px;
-  background-color: #5e5e5e;
+  background-color: var(--main-grey);
   color: white;
-  border: 0px solid #800040;
   margin: 0 1rem;
 }
 
@@ -33,11 +38,11 @@ h3 {
 }
 
 .btn--alt:hover {
-  background-color: #5e5e5e;
+  background-color: var(--main-grey);
 }
 
 .card {
-  background-color: rgb(47, 46, 46);
+  background-color: var(--dark-grey);
   border-radius: 10%;
   border-radius: 4px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
@@ -88,12 +93,12 @@ h3 {
 }
 
 .source {
-  color: #797979;
+  color: var(--light-grey);
 }
 
 .dashboard-wrapper {
   margin-top: 10px;
-  border: 1px solid #646364;
+  border: 1px solid var(--light-grey);
   border-radius: 15px;
   padding: 2px;
 }
@@ -110,13 +115,12 @@ h3 {
   border-width: 1px;
   box-sizing: border-box;
   border-bottom: #ffffff;
-  border: 1px solid #646364;
-  /* box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2); */
+  border: 1px solid var(--light-grey);
   border-radius: 15px;
 }
 
 .select {
-  margin-left: 6px;
+  margin-left: 10px;
   border-radius: 15px;
   background-color: #000000;
   color: #ffffff;

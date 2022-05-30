@@ -2,6 +2,7 @@ import React, { useCallback, useState } from "react";
 import _ from "lodash";
 
 import "./createStatCardModal.styles.css";
+import { loadCoinTickers } from "../../services";
 
 const CreateStatCardModal = (props: any) => {
   //   const [coinList, setCoinList] = useState<any>([]);
@@ -10,42 +11,44 @@ const CreateStatCardModal = (props: any) => {
   const [selectedCoin, setSelectedCoin] = useState("bitcoin");
   const [selectedTick, setSelectedTick] = useState();
 
-  const loadCoinTickers = async () => {
-    const response = await fetch(
-      `https://api.coingecko.com/api/v3/coins/${selectedCoin}/tickers`
-    );
-    const data = await response.json();
+  const getCoinTickers = async () => {
+    const ordered = await loadCoinTickers(selectedCoin);
 
-    // setCoinList(data);
-    const pickedMap = _.map(data.tickers, (item) => {
-      return {
-        timestamp: item.timestamp,
-        base: item.base,
-        target: item.target,
-        last: item.last,
-        market: item.market,
-        coinId: item.coin_id,
-      };
-    });
+    // const response = await fetch(
+    //   `https://api.coingecko.com/api/v3/coins/${selectedCoin}/tickers`
+    // );
+    // const data = await response.json();
 
-    const ordered = _.chain(pickedMap)
-      .filter((item) => {
-        return item.coinId === selectedCoin;
-      })
-      .sortBy("timestamp")
-      .reverse()
-      .groupBy("target")
-      .map((item) => {
-        return item[0];
-      })
-      .value();
+    // // setCoinList(data);
+    // const pickedMap = _.map(data.tickers, (item) => {
+    //   return {
+    //     timestamp: item.timestamp,
+    //     base: item.base,
+    //     target: item.target,
+    //     last: item.last,
+    //     market: item.market,
+    //     coinId: item.coin_id,
+    //   };
+    // });
+
+    // const ordered = _.chain(pickedMap)
+    //   .filter((item) => {
+    //     return item.coinId === selectedCoin;
+    //   })
+    //   .sortBy("timestamp")
+    //   .reverse()
+    //   .groupBy("target")
+    //   .map((item) => {
+    //     return item[0];
+    //   })
+    //   .value();
 
     setTickersList(ordered);
     setSelectedTick(ordered[0]?.target);
   };
 
   React.useEffect(() => {
-    loadCoinTickers();
+    getCoinTickers();
   }, [selectedCoin]);
 
   const onSelectedCoin = (event: any) => {

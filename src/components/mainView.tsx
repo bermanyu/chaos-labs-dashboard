@@ -1,11 +1,10 @@
-import StatCard from "./statCard";
 import StatCardModel from "../models/statCard.model";
 import DashboardData from "../models/dashboardData.model";
-import data from "../data/data.json";
 import * as React from "react";
 import { useState } from "react";
 
 import Dashboard from "./dashboard";
+import { getCoinList } from "../services/index";
 
 const statCard1: StatCardModel = {
   title: "BTC/ETH",
@@ -14,44 +13,47 @@ const statCard1: StatCardModel = {
 };
 
 const MainView = (props: any) => {
-  // React.useEffect(() => {
-  //   const newDataString = localStorage.getItem("dashboard");
-  //   const dashboardsData = JSON.parse(newDataString || "{}");
-  //   setDashboardDataFromLocal(dashboardsData);
-  // }, []);
-
-  const [dashboardsData, setDashboardDataFromLocal] = useState(
-    props.initalData
-  );
+  const [dashboardsData, setDashboardDataFromLocal] = useState(props.initalData);
 
   const [selectedDashboard, setSelectedDashboard] = useState(dashboardsData[0]);
-  const [items, setItems] = useState(dashboardsData);
+  const [dashboardList, setDashboardList] = useState(dashboardsData);
+  const [coinList, setCoinList] = useState([]);
+
+  const loadCoinList = React.useCallback(async () => {
+    const coinList: any = await getCoinList();
+    setCoinList(coinList);
+  }, []);
+
+  React.useEffect(() => {
+    loadCoinList();
+  }, [loadCoinList]);
 
   const onDashboardSelect = (event: any) => {
-    let index = items.findIndex((item: DashboardData) => {
+    let index = dashboardList.findIndex((item: DashboardData) => {
       return item.name === event.target.value;
     });
 
-    setSelectedDashboard(items[index]);
+    setSelectedDashboard(dashboardList[index]);
   };
 
   function addNewDashboard() {
     const newItem: DashboardData = {
-      name: "dashboard" + (items.length + 1),
+      name: "dashboard" + (dashboardList.length + 1),
       statCards: [],
     };
-    const newList = [...items, newItem];
+    const newList = [...dashboardList, newItem];
     // call async function to update the server
     // get the return value from the server and update set Items
-    setItems((prevItems: any) => {
+    setDashboardList((prevItems: any) => {
       return [...prevItems, newItem];
     });
     localStorage.setItem("dashboard", JSON.stringify(newList));
+    setSelectedDashboard(newItem);
   }
 
   return (
     <div className="main-view">
-      <h1>Chaos Labs Dashboads Viewrs</h1>
+      <h1>Chaos Labs Dashboads Viewers</h1>
       <h3>Please selected your Dashboard</h3>
       <div className="rows dashboards-header">
         <select
@@ -59,21 +61,18 @@ const MainView = (props: any) => {
           value={selectedDashboard.name}
           onChange={onDashboardSelect}
         >
-          {items.map((item: DashboardData) => (
+          {dashboardList.map((item: DashboardData) => (
             <option key={item.name} value={item.name}>
               {item.name}
             </option>
           ))}
         </select>
-        <button
-          className="row, button create-dashboard"
-          onClick={addNewDashboard}
-        >
+        <button className="row, button create-dashboard" onClick={addNewDashboard}>
           Create new dashboard
         </button>
       </div>
 
-      <Dashboard dashboardData={selectedDashboard}></Dashboard>
+      <Dashboard dashboardData={selectedDashboard} coinList={coinList}></Dashboard>
     </div>
   );
 };

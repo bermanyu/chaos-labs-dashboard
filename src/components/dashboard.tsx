@@ -2,33 +2,19 @@ import StatCardModel from "../models/statCard.model";
 import Backdrop from "./backdrop";
 import CreateStatCardModal from "./modals/createStatCardModal";
 import StatCard from "./statCard";
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import React from "react";
-import DashboardData from "../models/dashboardData.model";
 import _ from "lodash";
+import { updateLocalStorage } from "../services";
 
 const Dashboard = (props: any) => {
   const [showModal, setShowModal] = useState(false);
-  const [coinList, setCoinList] = useState([]);
-  const [statCardsList, setStatCardsList] = useState(
-    props.dashboardData.statCards
-  );
+  const [statCardsList, setStatCardsList] = useState(props?.dashboardData.statCards);
+
   React.useEffect(() => {
     setStatCardsList(props.dashboardData.statCards);
   }, [props.dashboardData.statCards]);
-
-  const loadCoinList = useCallback(async () => {
-    const response = await fetch("https://api.coingecko.com/api/v3/coins/list");
-    const data = await response.json();
-
-    setCoinList(data);
-
-    console.log(data);
-  }, []);
-
-  React.useEffect(() => {
-    loadCoinList();
-  }, [loadCoinList]);
+  React.useEffect(() => {}, [setStatCardsList]);
 
   const openNewTickerModal = () => {
     setShowModal(true);
@@ -45,70 +31,50 @@ const Dashboard = (props: any) => {
     };
     const newList = [...statCardsList, newStatCard];
 
-    updateLocalStorage(newStatCard, newList);
+    updateLocalStorage(newStatCard, props.dashboardData.name);
 
     setStatCardsList(newList);
     setShowModal(false);
   };
 
-  const updateLocalStorage = (
-    newStatCard: StatCardModel,
-    newList: StatCardModel[]
-  ) => {
-    const localStorageForChangeString = localStorage.getItem("dashboard");
-    const localStroageForChangeParsed = JSON.parse(
-      localStorageForChangeString || "{}"
-    );
+  const deleteStatCard = (title: string, subTitle: string) => {
+    console.log("before", statCardsList);
+    let newStatList = [...statCardsList];
+    _.remove(newStatList, { title: title, subTitle: subTitle });
+    setStatCardsList(newStatList);
 
-    const currentDashboard: DashboardData = _.find(
-      localStroageForChangeParsed,
-      { name: props.dashboardData.name }
-    );
-    const currentStatCards = _.get(currentDashboard, "statCards");
-    const newStatList = [...currentStatCards, newStatCard];
-    const newDashboardData = _.set(currentDashboard, "statCards", newStatList);
-
-    const itemIndex = _.indexOf(localStroageForChangeParsed, {
-      name: props.dashboardData.name,
-    });
-
-    _.set(
-      localStroageForChangeParsed,
-      localStroageForChangeParsed[itemIndex],
-      newDashboardData
-    );
-
-    localStorage.setItem(
-      "dashboard",
-      JSON.stringify(localStroageForChangeParsed)
-    );
+    console.log("after", statCardsList);
   };
 
   const closeModalHandler = () => {
     setShowModal(false);
   };
 
+  const getRandomNum = () => {
+    return Math.random() * 100;
+  };
+
   return (
     <div className="dashboard-wrapper">
       <div className="rows dashboard-header">
-        <h1 className="row dashboard-header title">
-          {props.dashboardData?.name}
-        </h1>
-        <button
-          className="row, button create-stat-card"
-          onClick={openNewTickerModal}
-        >
+        <h1 className="row dashboard-header title">{props.dashboardData?.name}</h1>
+        <button className="row, button create-stat-card" onClick={openNewTickerModal}>
           Add statCard
         </button>
       </div>
       <div className="rows stat-card-wrapper">
         {statCardsList.map((statCard: StatCardModel) => (
-          <StatCard className="row" statData={statCard} />
+          <StatCard
+            key={statCard.title + getRandomNum()}
+            className="row"
+            statData={statCard}
+            deleteCardFromStatList={deleteStatCard}
+          />
         ))}
       </div>
       {showModal && (
         <CreateStatCardModal
-          coinList={coinList}
+          coinList={props.coinList}
           onCreateHandler={addNewStatCard}
           onCancelClick={closeModalHandler}
         />

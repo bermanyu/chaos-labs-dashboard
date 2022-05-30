@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import logo from "./logo.svg";
 import "./App.css";
 import MainView from "./components/mainView";
 import data from "./data/data.json";
@@ -13,8 +12,6 @@ function App() {
     // setData(dashboard);
 
     localStorage.setItem("dashboard", JSON.stringify(dashboard));
-  } else {
-    // setData(JSON.parse(newDataString));
   }
   const [initalDashboard, setData]: [any, any] = useState(
     newDataString ? JSON.parse(newDataString) : Dashboard
