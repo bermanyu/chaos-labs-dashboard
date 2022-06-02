@@ -85,7 +85,9 @@ const DrawerNav = (props: any) => {
                         position:       "sticky",
                         display:        "flex",
                         alignItems:     "center",
-                        justifyContent: "space-between"
+                        justifyContent: "space-between",
+                        cursor:          "pointer",
+
                     }}>
                         <Typography flex="1">
                             Dashboards
@@ -101,6 +103,7 @@ const DrawerNav = (props: any) => {
                         width:           "65%",
                         display:         "flex",
                         alignItems:      "center",
+                        cursor:          "pointer",
                         color:           "white",
                         border:          "0px",
                         marginTop:       "5px",
@@ -125,7 +128,8 @@ const DrawerNav = (props: any) => {
                             <ListItem sx={{
                                 display:       "flex",
                                 flexDirection: "column",
-                                alignItems:    "center"
+                                alignItems:    "center",
+                                cursor:          "pointer"
                             }} key={key} value={value} onClick={onDashboardClick}>
                                 <ListItemText primary={value}/>
                             </ListItem>
