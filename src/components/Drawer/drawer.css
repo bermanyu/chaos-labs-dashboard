@@ -1,0 +1,11 @@
+.add-icon {
+  color: #ffffff !important;
+  }
+
+::placeholder {
+  color:   white;
+  display: flex;
+  align-items: center;
+  opacity: 1;
+  }
+    

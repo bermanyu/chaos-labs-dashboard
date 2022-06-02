@@ -1,0 +1,29 @@
+.card {
+  background-color: var(--dark-grey);
+  border-radius:    10%;
+  border-radius:    4px;
+  box-shadow:       0 1px 4px rgba(0, 0, 0, 0.2);
+  padding:          1rem;
+  width:            20rem;
+  margin:           5px;
+  }
+
+
+.card .card-header {
+  display:         flex;
+  align-items:     center;
+  justify-content: space-between;
+  
+  position:        relative;
+  bottom:          18px;
+  }
+
+.card .card-content {
+  display:         flex;
+  align-items:     center;
+  justify-content: space-between;
+  }
+
+.source {
+  color: var(--light-grey);
+  }

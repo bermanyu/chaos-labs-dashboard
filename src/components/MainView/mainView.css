@@ -1,0 +1,20 @@
+.header {
+  width: 100%;
+  height: 5rem;
+  display: flex;
+  align-items: center;
+  /*justify-content: space-between;*/
+  background-color: var(--dark-grey);
+  padding: 0 2%;
+  margin-bottom: 20px;
+  box-shadow:2px -11px 19px 14px var(--light-grey);
+  }
+
+.rows .row {
+  display: inline-block;
+  }
+
+
+.main-title {
+  margin-left:20px;
+  }

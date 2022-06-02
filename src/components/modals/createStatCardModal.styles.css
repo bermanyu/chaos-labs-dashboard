@@ -4,7 +4,7 @@
   background-color: rgb(47, 46, 46);
   padding: 1rem;
   text-align: center;
-  width: 30rem;
+  width: 20rem;
   z-index: 10;
   position: fixed;
   top: 20vh;
@@ -19,8 +19,11 @@
 }
 
 .modalFooter {
+  width: 85%;
   display: flex;
+  align-items: center;
   flex-direction: row;
+  justify-content: space-between;
   margin-top: 20px;
 }
 .select.coinList {

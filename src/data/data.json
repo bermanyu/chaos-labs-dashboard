@@ -1,20 +1,15 @@
 {
   "dashboard": [
     {
-      "name": "dashboard1",
+      "name": "Main Dashboard",
       "statCards": [
-        { "title": "BTC/ETH", "subTitle": "coinBase", "data": "17.34343" }
-      ]
-    },
-    {
-      "name": "dashboard2",
-      "statCards": [
-        { "title": "BTC/ETH", "subTitle": "coinBase", "data": "17.3" },
-        { "title": "BTC/SHI", "subTitle": "coinBase", "data": "2.3" },
-        { "title": "ETH/BTC", "subTitle": "coinBase", "data": "8.41" },
-        { "title": "ETH/BTC", "subTitle": "coinBase", "data": "8.41" },
-        { "title": "ETH/BTC", "subTitle": "coinBase", "data": "8.41" },
-        { "title": "ETH/BTC", "subTitle": "coinBase", "data": "8.41" }
+        { "base": "BTC",
+          "baseImg": "https://assets.coingecko.com/coins/images/1/thumb/bitcoin.png?1547033579",
+          "data": "30270.1",
+          "subTitle": "Kraken",
+          "target": "USDT",
+          "targetImg": "https://assets.coingecko.com/coins/images/325/thumb/Tether-logo.png?1598003707",
+          "title": "BTC/USDT"}
       ]
     }
   ]
