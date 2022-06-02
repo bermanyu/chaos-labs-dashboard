@@ -17,7 +17,7 @@ const Dashboard = (props: any) => {
 
     React.useEffect(() => {
         setStatCardsList(props.dashboardData.statCards);
-    }, [props.dashboardData.statCards]);
+    }, [props.dashboardData?.statCards]);
     React.useEffect(() => {
     }, [setStatCardsList]);
 
