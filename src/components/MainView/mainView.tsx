@@ -10,6 +10,7 @@ import Dashboard from "../Dashboard/dashboard";
 import {getCoinList} from "../../services";
 import {Box} from '@mui/material';
 import _ from 'lodash';
+import StatCardModel from '../../models/statCard.model';
 
 
 const MainView = (props: any) => {
@@ -66,6 +67,13 @@ const MainView = (props: any) => {
         localStorage.setItem("dashboard", JSON.stringify(newList));
         setSelectedDashboard(newItem);
     }
+     const setDashboardNewStatList = (dashboardName:string,newStatList:StatCardModel[]) =>{
+          _.forEach(dashboardList,(dashboard)=>{
+             if(dashboard.name === dashboardName){
+                 dashboard.statCards = newStatList
+             }
+         })
+     }
 
     return (
         <div>
@@ -74,7 +82,7 @@ const MainView = (props: any) => {
                 <h1 className="main-title">Chaos Labs Dashboads Viewers</h1>
             </Box>
 
-            <Dashboard dashboardData={selectedDashboard} coinList={coinList}></Dashboard>
+            <Dashboard dashboardData={selectedDashboard} coinList={coinList} setDashboardListState={setDashboardNewStatList}></Dashboard>
         </div>
     );
 };

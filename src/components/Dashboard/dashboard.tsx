@@ -17,9 +17,7 @@ const Dashboard = (props: any) => {
 
     React.useEffect(() => {
         setStatCardsList(props.dashboardData.statCards);
-    }, [props.dashboardData?.statCards]);
-    React.useEffect(() => {
-    }, [setStatCardsList]);
+    }, [props?.dashboardData?.statCards]);
 
     const openNewTickerModal = () => {
         setShowModal(true);
@@ -57,6 +55,8 @@ const Dashboard = (props: any) => {
         addStatCardToLocalStorage(newStatCard, props.dashboardData.name);
 
         setStatCardsList(newList);
+        props.setDashboardListState(props.dashboardData.name,newList)
+
         setShowModal(false);
     };
 
@@ -68,6 +68,8 @@ const Dashboard = (props: any) => {
         });
         setStatCardsList(newStatList);
         removeStatCardFromLocalStorage(statCardToRemove, props.dashboardData.name)
+
+        props.setDashboardListState(props.dashboardData.name,newStatList)
     };
 
     const closeModalHandler = () => {

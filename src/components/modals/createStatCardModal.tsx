@@ -12,7 +12,7 @@ const CreateStatCardModal = (props: any) => {
     const [selectedTick, setSelectedTick] = useState();
 
     const getCoinTickers = async () => {
-        const ordered = await loadCoinTickers(selectedCoinId,props.coinList);
+        const ordered = await loadCoinTickers(selectedCoinId);
 
         setTickersList(ordered);
         setSelectedTick(ordered[0]?.target);

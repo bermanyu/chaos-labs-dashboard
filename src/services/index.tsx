@@ -1,5 +1,4 @@
 import _ from "lodash";
-import {useState} from "react";
 import DashboardData from "../models/dashboardData.model";
 import StatCardModel from "../models/statCard.model";
 
@@ -8,7 +7,7 @@ export const getCoinList = async () => {
     return await response.json();
 };
 
-export const loadCoinTickers = async (coinId: string,coinList:any) => {
+export const loadCoinTickers = async (coinId: string) => {
     const response  = await fetch(
         `https://api.coingecko.com/api/v3/coins/${coinId}/tickers`
     );
@@ -25,7 +24,7 @@ export const loadCoinTickers = async (coinId: string,coinList:any) => {
         };
     });
 
-    const ordered = _.chain(pickedMap)
+    return _.chain(pickedMap)
                      .filter((item) => {
                          return item.coinId === coinId;
                      })
@@ -39,9 +38,7 @@ export const loadCoinTickers = async (coinId: string,coinList:any) => {
                          return item.targetId != null;
                      })
                      .value();
-    debugger
 
-    return ordered;
 };
 
 export const addStatCardToLocalStorage = (

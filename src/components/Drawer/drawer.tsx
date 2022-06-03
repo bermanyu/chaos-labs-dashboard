@@ -12,7 +12,7 @@ import IconButton from '@mui/material/IconButton';
 import "./drawer.css"
 
 const DrawerNav = (props: any) => {
-    const [openDashboardList, setState]           = React.useState(false);
+    const [openDashboardList, setOpenDashboardList]           = React.useState(false);
     const [showInput, setShowInput]               = React.useState(false);
     const [newDashboardName, setNewDashboardName] = React.useState("");
     const [isValidName, setIsValidName]           = React.useState(true);
@@ -35,13 +35,13 @@ const DrawerNav = (props: any) => {
                           return;
                       }
 
-                      setState(open);
+                      setOpenDashboardList(open);
                       setNewDashboardName("")
                       setShowInput(false)
                   };
 
     const onDashboardClick = (event: any) => {
-        setState(false)
+        setOpenDashboardList(false)
         props.ondashboardSelect(event.target.innerText)
     }
 
@@ -52,11 +52,12 @@ const DrawerNav = (props: any) => {
     const createNewDashboard = () => {
         if(newDashboardName.trim().length > 0) {
             props.onDashboardAdd(newDashboardName);
-            setState(false)
+            setOpenDashboardList(false)
             setNewDashboardName("")
         }
         else {
             setIsValidName(false);
+            setOpenDashboardList(true)
         }
     }
 
@@ -86,7 +87,7 @@ const DrawerNav = (props: any) => {
                         display:        "flex",
                         alignItems:     "center",
                         justifyContent: "space-between",
-                        cursor:          "pointer",
+                        cursor:         "pointer",
 
                     }}>
                         <Typography flex="1">
@@ -99,27 +100,36 @@ const DrawerNav = (props: any) => {
                                 <AddIcon/>
                             </IconButton></Tooltip>}
                     </div>
-                    {showInput ? <input style={{
-                        width:           "65%",
-                        display:         "flex",
-                        alignItems:      "center",
-                        cursor:          "pointer",
-                        color:           "white",
-                        border:          "0px",
-                        marginTop:       "5px",
-                        borderBottom:    "1px solid white",
-                        borderColor:     isValidName ? "none" : "red",
-                        backgroundColor: isValidName ? "transparent" : "#fa9d9d"
-                    }}
-                                        autoFocus={true}
-                                        placeholder={isValidName ? "Enter Dashboard Name " : "Can't Enter empty name"}
-                                        value={newDashboardName} onChange={changeName}/> : null}
-                    {showInput ? <IconButton onClick={createNewDashboard} className="add-icon">
-                        <AddIcon/>
-                    </IconButton> : null}
+                    <form style={{
+                        display:       "flex",
+                        alignItems:    "center",
+                        cursor:        "pointer",
+                        flexDirection: "column"
+                    }}>
+                        {showInput ? <input required style={{
+                            width:           "100%",
+                            display:         "flex",
+                            alignItems:      "center",
+                            cursor:          "pointer",
+                            color:           "white",
+                            border:          "0px",
+                            marginTop:       "5px",
+                            borderBottom:    "1px solid white",
+                            borderColor:     isValidName ? "none" : "red",
+                            backgroundColor: isValidName ? "transparent" : "#fa9d9d"
+                        }}
+                                            autoFocus={true}
+                                            placeholder={isValidName ? "Enter Dashboard Name " :
+                                                "Can't Enter empty name"}
+                                            value={newDashboardName} onChange={changeName}/> : null}
+                        {showInput ? <IconButton type="submit" onClick={createNewDashboard} className="add-icon">
+                            <AddIcon/>
+                        </IconButton> : null}
+                    </form>
+
                 </DrawerHeader>
                 <List>
-                    {props.dashboardList.map((item: { key: any; value: any }, index: any) => {
+                    {props.dashboardList.map((item: { key: any; value: any }) => {
                         const {
                                   key,
                                   value
@@ -129,7 +139,7 @@ const DrawerNav = (props: any) => {
                                 display:       "flex",
                                 flexDirection: "column",
                                 alignItems:    "center",
-                                cursor:          "pointer"
+                                cursor:        "pointer"
                             }} key={key} value={value} onClick={onDashboardClick}>
                                 <ListItemText primary={value}/>
                             </ListItem>
